@@ -1,0 +1,80 @@
+\documentclass[25pt, a0paper, portrait]{conferenceposter}
+\tikzposterlatexaffectionproofoff
+
+\usepackage[english]{babel}
+\usepackage{microtype}
+
+\usepackage[T1]{fontenc}
+%\usepackage{lmodern}
+\usepackage[defaultsans,default]{opensans}
+
+
+
+\title{\boldmath{}Paper/Contribution with a Long Title Containing Some Math Symbols like $\alpha$ and $L$ and others}
+\author{First Author, Second Author, and Third Author}
+\date{\today}
+\institute{Affiliation}
+%\titlegraphic{\includegraphics[height=.1\textheight]{logo.png}}
+\titlegraphic{\includegraphics[width=.2\linewidth]{logo.png}}
+%
+\usepackage{blindtext}
+\usepackage{comment}
+
+
+\definecolorpalette{myColorPalette}{
+	\definecolor{colorOne}{HTML}{FFF2E6}%ECF1FC
+	\definecolor{colorTwo}{HTML}{FFF2E6}
+%	\definecolor{colorThree}{HTML}{e77500}
+	\definecolor{colorThree}{HTML}{EE9E4C}
+	\definecolor{bgcolorAlt}{HTML}{FFFCFA}%FCFCFF
+	\definecolor{fgcolor}{HTML}{151511}
+}
+%\usecolorstyle[colorPalette=myColorPalette]{conferenceColorStyle}
+
+%\definetitlestyle{myTitleStyle}{titlegraphictotitledistance=-200pt,titletoblockverticalspace=3cm}{}
+%\usetitlestyle{myTitleStyle}
+
+
+\begin{document}
+	
+	\maketitle
+	
+	\block{}
+	{
+		\blindtext
+	}
+	
+	\begin{columns}
+		\column{0.4}
+		\block{More text}{Text and more text}
+		
+		\column{0.6}
+		\block{Something else}{Here, \blindtext \vspace{4cm}}
+		\note[
+		targetoffsetx=-9cm, 
+		targetoffsety=-6.5cm, 
+		width=0.5\linewidth
+		]
+		{e-mail \texttt{email@example.com}}
+	\end{columns}
+	
+	\begin{columns}
+		\column{0.5}
+		\block{A figure}
+		{
+%			\begin{tikzfigure}
+			\includegraphics[width=0.2\textheight]{logo.png}
+%			\end{tikzfigure}
+		}
+		\column{0.5}
+		\block{Description of the figure}{\blindtext}
+	\end{columns}
+	
+	\begin{columns}
+		\column{.5}
+		\block{Outer Block}{
+			\blindtext
+			\innerblock{Inner Block}{\blindtext}
+		}
+	\end{columns}
+\end{document}
