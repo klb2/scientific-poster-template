@@ -1,10 +1,11 @@
 \NeedsTeXFormat{LaTeX2e}%[1999/12/01]
-\ProvidesClass{conferenceposter}[2023/05/22 class for designing conference posters based on tikzposter]
+\ProvidesClass{conferenceposter}[2023/05/25 v1.0 class for designing conference posters based on tikzposter]
 % author: Karl-Ludwig Besser
 
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{tikzposter}}
 \ProcessOptions\relax
 \LoadClass{tikzposter}
+\tikzposterlatexaffectionproofoff
 
 \RequirePackage{tabularx}
 \RequirePackage{multirow}
@@ -114,26 +115,3 @@
 	\normalsize
 	\setlength{\TP@blocktop}{\titleposbottom-\TP@titletoblockverticalspace}
 }
-
-%
-%\def\title#1{\gdef\@title{\scalebox{\TP@titletextscale}{\parbox{\linewidth}{\raggedleft#1}}}}
-%\gdef\TP@maketitle{
-%%	\centering
-%%	\hfill
-%	\begin{minipage}{.7\titlewidth-2\TP@titleinnersep}
-%		\begin{flushright}
-%			\color{titlefgcolor}
-%		{\Huge \textsc{\textbf{\@title}}\par}
-%		\vspace*{2em}
-%		{\huge \@author \par}
-%		\vspace*{2em}
-%		{\LARGE \@institute}
-%		\end{flushright}
-%	\end{minipage}
-%	\hfill
-%	\begin{minipage}{.3\titlewidth-2\TP@titleinnersep}
-%		\begin{flushright}
-%			\@titlegraphic
-%		\end{flushright}
-%	\end{minipage}
-%}
