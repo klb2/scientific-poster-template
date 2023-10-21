@@ -1,36 +1,44 @@
+% !TeX program=lualatex
 \documentclass[25pt, a0paper, portrait]{conferenceposter}
+
+%\geometry{paperheight=48in,paperwidth=36in} % for different sizes than A paper
 
 \usepackage[english]{babel}
 \usepackage{microtype}
 
-\usepackage[T1]{fontenc}
-%\usepackage{lmodern}
-\usepackage[defaultsans,default]{opensans}
+%\usepackage[T1]{fontenc}
+%\usepackage[defaultsans,default]{opensans}
+\usepackage{fontspec} % use with lualatex or xelatex
+\usepackage{arev} % math font
+\setmainfont{Open Sans}
 
 
-
-\title{\boldmath{}Paper with a Long Title Containing Some Math Symbols like $\alpha$ and $L$}
-\author{First Author, Second Author, and Third Author}
-\date{\today}
-\institute{Department of Science, University of City, Country}
-%\titlegraphic{\includegraphics[height=.1\textheight]{logo.png}}
-\titlegraphic{\includegraphics[width=.2\linewidth]{logo.png}}
-%
 \usepackage{blindtext}
-\usepackage{comment}
+
 
 
 \definecolorpalette{myColorPalette}{
-	\definecolor{colorOne}{HTML}{FFF2E6}
-	\definecolor{colorTwo}{HTML}{FFF2E6}
-	\definecolor{colorThree}{HTML}{EE9E4C}
-	\definecolor{bgcolorAlt}{HTML}{FFFCFA}
-	\definecolor{fgcolor}{HTML}{151511}
+	\definecolor{colorOne}{HTML}{ECF1FC}
+	\definecolor{colorTwo}{HTML}{ECF1FC}
+	\definecolor{colorThree}{HTML}{7EBDC2}
+	\definecolor{bgcolorAlt}{HTML}{FCFCFF}
+	\definecolor{fgcolor}{HTML}{222244}
 }
-%\usecolorstyle[colorPalette=myColorPalette]{conferenceColorStyle}
+\usecolorstyle[colorPalette=myColorPalette]{conferenceColorStyle}
 
-%\definetitlestyle{myTitleStyle}{titlegraphictotitledistance=-200pt,titletoblockverticalspace=3cm}{}
-%\usetitlestyle{myTitleStyle}
+
+
+\title{\boldmath{}Paper with a Long Title Containing Some Math Symbols like $\alpha$ and $L$, and the Title is so long that it definitely spans multiple lines}
+\author{First Author\affilmark{1}, Second Author\affilmark{1,2}, and Third Author\affilmark{2}}
+\institute{%
+\affilmark{1} Department of Science, University of City, Country\\
+\affilmark{2} Department of Engineering, Other University, Different Country
+}
+
+
+\titlegraphic{\includegraphics[height=.08\paperheight]{logo.png}}
+
+\usetitlestyle[titlebackgroundheight=.078\paperheight,titlegraphictotitledistance=1cm]{conferenceTitleStyle}
 
 
 \begin{document}
@@ -38,36 +46,34 @@
 
 \block{}
 {
-	\blindtext
+\blindtext
 }
 
 \begin{columns}
-	\column{0.4}
-	\block{More text}{Text and more text}
-	
-	\column{0.6}
-	\block{Something else}{Here, \blindtext \vspace{4cm}}
-	\note[
-	targetoffsetx=-9cm, 
-	targetoffsety=-5.5cm, 
-	width=0.5\linewidth
-	]
-	{This is a note...}
+\column{0.4}
+\block{More text}{Text and more text}
+
+\column{0.6}
+\block{Something else}{Here, \blindtext \vspace{4cm}}
+\note[targetoffsetx=-9cm, targetoffsety=-5.5cm, width=0.5\linewidth]{This is a note...}
 \end{columns}
 
 \begin{columns}
-	\column{0.5}
-	\block{A figure}
-	{
-		\includegraphics[width=0.2\textheight]{logo.png}
-	}
-	
-	\block{Outer Block}{
-		\blindtext
-		\innerblock{Inner Block}{\blindtext}
-	}
-	
-	\column{0.5}
-	\block{Description of the figure}{\Large\blindtext[2]}
+\column{0.5}
+\block{A figure}
+{
+\begin{center}
+	\includegraphics[width=0.2\textheight]{logo.png}
+\end{center}
+}
+
+\block{Outer Block}{
+\blindtext
+\innerblock{Inner Block}{\blindtext}
+}
+
+
+\column{0.5}
+\block{Description of the figure}{\Large\blindtext[2]}
 \end{columns}
 \end{document}
