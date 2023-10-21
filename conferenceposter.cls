@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}%[1999/12/01]
-\ProvidesClass{conferenceposter}[2023/05/25 v1.0 class for designing conference posters based on tikzposter]
+\ProvidesClass{conferenceposter}[2023/10/20 v1.2 class for designing conference posters based on tikzposter]
 % author: Karl-Ludwig Besser
 
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{tikzposter}}
@@ -7,11 +7,13 @@
 \LoadClass{tikzposter}
 \tikzposterlatexaffectionproofoff
 
+\usetikzlibrary{math}
+
 \RequirePackage{tabularx}
 \RequirePackage{multirow}
 
+\newcommand*{\affilmark}[1]{\raisebox{0pt}[0pt][0pt]{\textsuperscript{#1}}}
 
-\newdimen\CP@logoheight
 
 \definecolorstyle{conferenceColorStyle} {
 	\definecolor{colorOne}{HTML}{ECF1FC}%ECF1FC
@@ -61,44 +63,42 @@
 }
 \useblockstyle{conferenceBlockStyle}
 
+\newdimen\TP@titlebackgroundheight
+\define@key{title}{titlebackgroundheight}{\TP@titlebackgroundheight=#1}
 \definetitlestyle{conferenceTitleStyle}{
 	width=\TP@visibletextwidth, roundedcorners=0, linewidth=2pt, innersep=40pt,
-	titletotopverticalspace=15mm, titletoblockverticalspace=15mm, %titletotopverticalspace=100pt,
-	titlegraphictotitledistance=-100pt,
-}{}
+	titletotopverticalspace=25mm, titletoblockverticalspace=15mm,
+	titlebackgroundheight=10cm,,
+%	titlegraphictotitledistance=-100pt,
+}{
+}
 \usetitlestyle{conferenceTitleStyle}
 
 
-\def\title#1{\gdef\@title{\scalebox{\TP@titletextscale}{\parbox{.75\TP@visibletextwidth-2\TP@titleinnersep}{#1}}}}
+%\def\title#1{\gdef\@title{\scalebox{\TP@titletextscale}{\parbox{\TP@visibletextwidth-2\TP@titleinnersep}{#1}}}}
+\def\title#1{\gdef\@title{#1}}
+
 \gdef\TP@maketitle{%
-%	\noindent
 	\color{titlefgcolor}
-	{\Huge \textsc{\textbf{\@title}}\par
-	\vspace*{1em}}
-	{\huge \@author \par
-	\vspace*{1em}}
-	{\LARGE \@institute}
+	{\fontsize{85pt}{110pt}\bfseries\selectfont
+	\@title\par
+	\vspace*{.75em}
+	}
+	{\huge\bfseries\@author\par
+	\vspace*{.5em}
+	}
+	{\Large \@institute\par}
 }
 \renewcommand\maketitle[1][]{  % #1 keys
 	\normalsize
 	\setkeys{title}{#1}
-	\settoheight{\CP@logoheight}{\@titlegraphic}
 	
-	\node[transparent, inner sep=\TP@titleinnersep, line width=\TP@titlelinewidth, anchor=north, minimum width=\TP@visibletextwidth-2\TP@titleinnersep, text width=\TP@visibletextwidth-2\TP@titleinnersep,
-	align=left]
-	(TP@title) at ($(0, 0.5\textheight-\CP@logoheight+\TP@titlegraphictotitledistance)$) {\TP@maketitle};
-	\draw let \p1 = ($(TP@title.north)-(TP@title.south)$) in node {
-		\setlength{\TP@titleheight}{\y1}
-		\setlength{\titleheight}{\y1}
-		\global\TP@titleheight=\TP@titleheight
-		\global\titleheight=\titleheight
-	};
+	% Background node
+	\draw[fill=blockbodybgcolor,draw=blockbodybgcolor] (-.5\paperwidth, .5\paperheight) rectangle (.5\paperwidth, 0.5\textheight-\TP@titlebackgroundheight);
 	
-	% Compute title position
-	\setlength{\titleposleft}{-0.5\titlewidth}
-	\setlength{\titleposright}{\titleposleft+\titlewidth}
-	\setlength{\titlepostop}{0.5\textheight-\CP@logoheight-\TP@titlegraphictotitledistance}
-	\setlength{\titleposbottom}{\titlepostop-\titleheight}
+	\node[anchor=north west, inner sep=0pt] (logonode) at ($(-0.5\titlewidth, 0.5\textheight-\TP@titletotopverticalspace)$) {\@titlegraphic};
+	
+	\coordinate (titleboxnorth) at ($(0, 0 |- logonode.south) + (0, -\TP@titlegraphictotitledistance)$);
 	
 	% Title node
 	\node[fill=titlebgcolor, draw=none,%draw=blocktitlebgcolor,
@@ -107,11 +107,13 @@
 		  minimum width=\TP@visibletextwidth-2\TP@titleinnersep,
 		  text width=\TP@visibletextwidth-2\TP@titleinnersep,
 		  align=left,
-		  anchor=north] at ($(0, .5\textheight-\CP@logoheight-\TP@titlegraphictotitledistance)$) {\TP@maketitle};
+		  anchor=north] (titlenode) at (titleboxnorth) {\TP@maketitle};
 	
-	\node[anchor=north east, inner sep=0pt] at ($(.5\TP@visibletextwidth-\TP@titleinnersep, 0.5\textheight-\TP@titletotopverticalspace)$) {\@titlegraphic};
-	
-	% Settings for blocks
 	\normalsize
-	\setlength{\TP@blocktop}{\titleposbottom-\TP@titletoblockverticalspace}
+	\tikzmath{coordinate \titleboxsouth;
+		\titleboxsouth = (titlenode.south);
+		\distTitleSouth = abs(\titleboxsouthy);%veclen(\Cx, \Cy);
+	}
+	\setlength{\TP@blocktop}{\distTitleSouth pt - \TP@titletoblockverticalspace}
+%	\setlength{\TP@blocktop}{\titleposbottom-\TP@titletoblockverticalspace}
 }
